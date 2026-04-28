@@ -10,6 +10,8 @@
 
 This repository contains two implementations of the same minimal task manager app (a Google Tasks clone) built to compare two software architecture styles side by side using the same exact tech stack. The only difference between them is how the code is organized internally.
 
+![Architecture Comparison](SpaguettivsLasagna.png)
+
 ## Projects
 
 | Folder | Architecture | Core idea |
