@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# SQLite databases
+*.db
+
+# Environment variables
+.env
+.env.*
+
+# OpenCode / AI agent files — do NOT upload to GitHub
+skills-lock.json
+.opencode/
+.agents/
+.agent/
+*.skill
+skills/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
