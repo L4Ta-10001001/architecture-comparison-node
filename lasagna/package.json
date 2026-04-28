@@ -1,0 +1,14 @@
+{
+  "name": "mvc-app",
+  "version": "1.0.0",
+  "description": "Gestor de tareas — arquitectura MVC monolítica (proyecto didáctico)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3"
+  }
+}
