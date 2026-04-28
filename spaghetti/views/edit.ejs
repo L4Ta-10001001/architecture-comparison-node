@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Tarea</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; padding: 24px; }
+    h1 { font-size: 1.6rem; margin-bottom: 6px; color: #1a73e8; }
+    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+    .nav { margin-bottom: 20px; }
+    .nav a { color: #1a73e8; text-decoration: none; font-size: 0.9rem; }
+    .nav a:hover { text-decoration: underline; }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      padding: 28px;
+      max-width: 520px;
+    }
+    label { display: block; font-size: 0.88rem; font-weight: bold; margin-bottom: 6px; color: #444; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-bottom: 18px;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: #1a73e8;
+    }
+    textarea { resize: vertical; height: 90px; }
+    .btn-submit {
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background: #1558b0; }
+    .meta {
+      font-size: 0.8rem;
+      color: #999;
+      margin-bottom: 20px;
+      border-left: 3px solid #e8eaed;
+      padding-left: 10px;
+    }
+    .error {
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f5c6c2;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Enlace de navegación de regreso al listado -->
+  <div class="nav">
+    <a href="/">&larr; Volver al listado</a>
+  </div>
+
+  <h1>Editar Tarea #<%= task.id %></h1>
+  <p class="subtitle">Modifica los campos y guarda los cambios.</p>
+
+  <div class="card">
+    <!-- Metadatos de la tarea -->
+    <div class="meta">
+      Creada: <%= task.created_at %> &nbsp;|&nbsp;
+      Estado: <%= task.completed ? 'Completada' : 'Pendiente' %>
+    </div>
+
+    <!-- Mostrar error de validación si existe -->
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+
+    <!-- Formulario: envía POST a /tasks/:id con los datos actualizados -->
+    <form action="/tasks/<%= task.id %>" method="POST">
+      <label for="title">Título <span style="color:#c5221f;">*</span></label>
+      <!-- Pre-llenar el campo con el valor actual de la tarea -->
+      <input type="text" id="title" name="title" value="<%= task.title %>" required>
+
+      <label for="description">Descripción (opcional)</label>
+      <textarea id="description" name="description"><%= task.description %></textarea>
+
+      <button type="submit" class="btn-submit">Guardar cambios</button>
+    </form>
+  </div>
+
+</body>
+</html>

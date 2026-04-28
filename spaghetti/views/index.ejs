@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Tareas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; padding: 24px; }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1a73e8; }
+    .nav { margin-bottom: 20px; }
+    .nav a {
+      display: inline-block;
+      background: #1a73e8;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .nav a:hover { background: #1558b0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    }
+    th {
+      background: #1a73e8;
+      color: #fff;
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td { padding: 12px 16px; border-bottom: 1px solid #e8eaed; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8f9fa; }
+    .completed td { text-decoration: line-through; color: #888; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: bold;
+    }
+    .badge-done { background: #e6f4ea; color: #137333; }
+    .badge-pending { background: #fce8e6; color: #c5221f; }
+    .actions { display: flex; gap: 6px; align-items: center; }
+    .btn {
+      display: inline-block;
+      padding: 5px 12px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-edit { background: #fbbc04; color: #333; }
+    .btn-edit:hover { background: #f9a825; }
+    .btn-toggle { background: #e8f0fe; color: #1a73e8; }
+    .btn-toggle:hover { background: #c5d8fc; }
+    .btn-delete { background: #fce8e6; color: #c5221f; }
+    .btn-delete:hover { background: #f5c6c2; }
+    .empty { text-align: center; padding: 40px; color: #888; font-style: italic; }
+    .desc { font-size: 0.85rem; color: #666; }
+    .date { font-size: 0.8rem; color: #999; white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestor de Tareas</h1>
+  <p style="color:#888; margin-bottom:16px; font-size:0.9rem;">Arquitectura convencional — toda la lógica vive en app.js</p>
+
+  <!-- Enlace para crear una nueva tarea -->
+  <div class="nav">
+    <a href="/tasks/new">+ Nueva tarea</a>
+  </div>
+
+  <% if (tasks.length === 0) { %>
+    <!-- Sin tareas: mostrar mensaje vacío -->
+    <table>
+      <tr><td class="empty">No hay tareas todavía. ¡Crea una!</td></tr>
+    </table>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Creada</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tasks.forEach(task => { %>
+          <!-- Fila de tarea: clase especial si está completada -->
+          <tr class="<%= task.completed ? 'completed' : '' %>">
+            <td><%= task.id %></td>
+            <td><strong><%= task.title %></strong></td>
+            <td class="desc"><%= task.description || '—' %></td>
+            <td>
+              <% if (task.completed) { %>
+                <span class="badge badge-done">Completada</span>
+              <% } else { %>
+                <span class="badge badge-pending">Pendiente</span>
+              <% } %>
+            </td>
+            <td class="date"><%= task.created_at %></td>
+            <td>
+              <div class="actions">
+                <!-- Editar -->
+                <a href="/tasks/<%= task.id %>/edit" class="btn btn-edit">Editar</a>
+
+                <!-- Alternar estado completado/pendiente -->
+                <form action="/tasks/<%= task.id %>/toggle" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-toggle">
+                    <%= task.completed ? 'Reabrir' : 'Completar' %>
+                  </button>
+                </form>
+
+                <!-- Eliminar tarea -->
+                <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;"
+                      onsubmit="return confirm('¿Seguro que deseas eliminar esta tarea?')">
+                  <button type="submit" class="btn btn-delete">Eliminar</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+</body>
+</html>
